@@ -1,0 +1,24 @@
+{
+  "name": "iodine-gba",
+  "version": "1.0.4",
+  "description": "iodine gba",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chrisdickinson/IodineGBA.git"
+  },
+  "keywords": [
+    "iodine",
+    "gba",
+    "emulator"
+  ],
+  "author": "Chris Dickinson <chris@neversaw.us> (http://neversaw.us/)",
+  "license": "GPLv2",
+  "bugs": {
+    "url": "https://github.com/chrisdickinson/IodineGBA/issues"
+  },
+  "homepage": "https://github.com/chrisdickinson/IodineGBA"
+}
