@@ -1,6 +1,6 @@
 {
   "name": "iodine-gba",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "iodine gba",
   "main": "index.js",
   "scripts": {
