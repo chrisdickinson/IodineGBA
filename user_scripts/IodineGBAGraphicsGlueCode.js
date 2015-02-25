@@ -15,6 +15,8 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GlueCodeGfx;
+var getUint8Array = require('../IodineGBA/includes/TypedArrayShim.js').getUint8Array;
 function GlueCodeGfx() {
     this.didRAF = false;                      //Set when rAF has been used.
     this.graphicsFound = 0;                   //Do we have graphics output sink found yet?

@@ -15,6 +15,7 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = getInputFunctions;
 var keyZones = [
     //Use this to control the key mapping:
                 ["right", [39]],
@@ -28,7 +29,26 @@ var keyZones = [
                 ["r", [50]],
                 ["l", [49]]
 ];
-function keyDown(e) {
+function getInputFunctions(gba) {
+  return {
+    keyDown: curryKeyDown,
+    keyUp: curryKeyUp,
+    keyUpPreprocess: curryKeyUpPreprocess
+  };
+
+  function curryKeyDown(ev) {
+    return keyDown(gba, ev);
+  }
+
+  function curryKeyUp(ev) {
+    return keyUp(gba, ev);
+  }
+
+  function curryKeyUpPreprocess(ev) {
+    return keyUpPreprocess(gba, ev);
+  }
+}
+function keyDown(Iodine, e) {
     var keyCode = e.keyCode;
     var keyMapLength = keyZones.length;
     for (var keyMapIndex = 0; keyMapIndex < keyMapLength; ++keyMapIndex) {
@@ -46,7 +66,7 @@ function keyDown(e) {
         }
     }
 }
-function keyUp(e) {
+function keyUp(Iodine, e) {
     var keyCode = e.keyCode;
     var keyMapLength = keyZones.length;
     for (var keyMapIndex = 0; keyMapIndex < keyMapLength; ++keyMapIndex) {
@@ -64,13 +84,13 @@ function keyUp(e) {
         }
     }
 }
-function keyUpPreprocess(e) {
+function keyUpPreprocess(Iodine, e) {
     switch (e.keyCode) {
         case 68:
-            lowerVolume();
+            Iodine.incrementVolume(-0.04);
             break;
         case 82:
-            raiseVolume();
+            Iodine.incrementVolume(0.04);
             break;
         case 51:
             Iodine.incrementSpeed(0.10);
@@ -80,6 +100,6 @@ function keyUpPreprocess(e) {
             break;
         default:
             //Control keys / other
-            keyUp(e);
+            keyUp(Iodine, e);
     }
 }

@@ -15,25 +15,11 @@
  * GNU General Public License for more details.
  *
  */
-function attachBIOS(BIOS) {
-    resetPlayButton();
-    try {
-        Iodine.attachBIOS(new Uint8Array(BIOS));
-    }
-    catch (error) {
-        Iodine.attachBIOS(BIOS);
-    }
-}
-function attachROM(ROM) {
-    resetPlayButton();
-    try {
-        Iodine.attachROM(new Uint8Array(ROM));
-    }
-    catch (error) {
-        Iodine.attachROM(ROM);
-    }
-}
-function fileLoadShimCode(files, ROMHandler) {
+module.exports = {
+  downloadFile: downloadFile,
+  uploadFile: uploadFile
+};
+function uploadFile(files, ROMHandler) {
     if (typeof files != "undefined") {
         if (files.length >= 1) {
             //Gecko 1.9.2+ (Standard Method)
@@ -59,12 +45,6 @@ function fileLoadShimCode(files, ROMHandler) {
             }
         }
     }
-}
-function fileLoadBIOS() {
-    fileLoadShimCode(this.files, attachBIOS);
-}
-function fileLoadROM() {
-    fileLoadShimCode(this.files, attachROM);
 }
 function downloadFile(fileName, registrationHandler) {
     var ajax = new XMLHttpRequest();

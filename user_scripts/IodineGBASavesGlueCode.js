@@ -15,12 +15,17 @@
  * GNU General Public License for more details.
  *
  */
+var base64 = require('base64-js');
+module.exports = {
+  register: registerSaveHandlers,
+  refresh: refreshStorageListing
+};
 function ImportSaveCallback(name) {
     try {
         var save = findValue("SAVE_" + name);
         if (save != null) {
             writeRedTemporaryText("Loaded save.");
-            return base64ToArray(save);
+            return base64.toByteArray(save);
         }
     }
     catch (error) {
@@ -28,20 +33,17 @@ function ImportSaveCallback(name) {
     }
     return null;
 }
-function ExportSave() {
-    Iodine.exportSave();
-}
 function ExportSaveCallback(name, save) {
     if (name != "") {
         try {
-            setValue("SAVE_" + name, arrayToBase64(save));
+            setValue("SAVE_" + name, base64.fromByteArray(save));
         }
         catch (error) {
             writeRedTemporaryText("Could not store save: " + error.message);
         }
     }
 }
-function registerSaveHandlers() {
+function registerSaveHandlers(Iodine) {
     Iodine.attachSaveExportHandler(ExportSaveCallback);
     Iodine.attachSaveImportHandler(ImportSaveCallback);
 }
@@ -176,14 +178,14 @@ function decodeBlob(blobData) {
     }
     return blobProperties;
 }
-function refreshStorageListing() {
-    ExportSave();
+function refreshStorageListing(Iodine) {
+    Iodine.exportSave();
     var keys = getLocalStorageKeys();
     var blobPairs = [];
     for (var index = 0; index < keys.length; ++index) {
         blobPairs[index] = [keys[index], JSON.stringify(findValue(keys[index]))];
     }
-    this.href = "data:application/octet-stream;base64," + base64(generateMultiBlob(blobPairs));
+    this.href = "data:application/octet-stream;base64," + base64.fromByteArray(generateMultiBlob(blobPairs));
     this.download = "gameboy_advance_saves_" + ((new Date()).getTime()) + ".export";
 }
 function checkStorageLength() {

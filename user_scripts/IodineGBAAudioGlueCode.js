@@ -15,12 +15,20 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = {
+  Mixer: GlueCodeMixer,
+  Input: GlueCodeMixerInput
+};
+var getFloat32Array = require('../IodineGBA/includes/TypedArrayShim.js').getFloat32Array;
 function GlueCodeMixer() {
     var parentObj = this;
-    this.audio = new XAudioServer(2, this.sampleRate, 0, this.bufferAmount, null, 1, function () {
-                     //Disable audio in the callback here:
-                     parentObj.disableAudio();
-    });
+    this.audio = null;
+    if (typeof XAudioServer !== 'undefined') {
+      this.audio = new XAudioServer(2, this.sampleRate, 0, this.bufferAmount, null, 1, function () {
+                       //Disable audio in the callback here:
+                       parentObj.disableAudio();
+      });
+    }
     this.outputUnits = [];
     this.outputUnitsValid = [];
     setInterval(function(){parentObj.checkAudio();}, 16);
@@ -148,7 +156,10 @@ AudioBufferWrapper.prototype.initialize = function () {
     this.inBuffer = getFloat32Array(this.inBufferSize);
     this.outBufferSize = (Math.ceil(this.inBufferSize * this.mixerSampleRate / this.sampleRate / this.mixerChannelCount) * this.mixerChannelCount) + this.mixerChannelCount;
     this.outBuffer = getFloat32Array(this.outBufferSize);
-    this.resampler = new Resampler(this.sampleRate, this.mixerSampleRate, this.mixerChannelCount, this.outBufferSize, true);
+    this.resampler = null;
+    if (typeof Resampler !== 'undefined') {
+        this.resampler = new Resampler(this.sampleRate, this.mixerSampleRate, this.mixerChannelCount, this.outBufferSize, true);
+    }
     this.inputOffset = 0;
     this.resampleBufferStart = 0;
     this.resampleBufferEnd = 0;
