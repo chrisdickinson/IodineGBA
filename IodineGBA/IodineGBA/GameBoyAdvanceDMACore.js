@@ -15,6 +15,11 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GameBoyAdvanceDMA;
+var GameBoyAdvanceDMA0 = require('./memory/GameBoyAdvanceDMA0Core.js');
+var GameBoyAdvanceDMA1 = require('./memory/GameBoyAdvanceDMA1Core.js');
+var GameBoyAdvanceDMA2 = require('./memory/GameBoyAdvanceDMA2Core.js');
+var GameBoyAdvanceDMA3 = require('./memory/GameBoyAdvanceDMA3Core.js');
 function GameBoyAdvanceDMA(IOCore) {
     this.IOCore = IOCore;
     this.initialize();

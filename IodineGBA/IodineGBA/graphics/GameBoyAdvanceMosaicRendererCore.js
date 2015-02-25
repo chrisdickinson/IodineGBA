@@ -15,6 +15,7 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GameBoyAdvanceMosaicRenderer;
 function GameBoyAdvanceMosaicRenderer(gfx) {
     this.BGMosaicHSize = 0;
     this.BGMosaicVSize = 0;

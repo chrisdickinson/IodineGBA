@@ -15,6 +15,10 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GameBoyAdvanceSRAMChip;
+
+var getUint8Array = require('../../includes/TypedArrayShim.js').getUint8Array;
+
 function GameBoyAdvanceSRAMChip() {
     this.saves = null;
     this.TILTChip = null;

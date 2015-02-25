@@ -15,6 +15,8 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GameBoyAdvanceWait;
+var getUint8Array = require('../includes/TypedArrayShim.js').getUint8Array;
 function GameBoyAdvanceWait(IOCore) {
     this.IOCore = IOCore;
     this.memory = this.IOCore.memory;

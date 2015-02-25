@@ -15,6 +15,10 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GameBoyAdvanceAffineBGRenderer;
+
+var getInt32Array = require('../../includes/TypedArrayShim.js').getInt32Array;
+
 function GameBoyAdvanceAffineBGRenderer(gfx, BGLayer) {
     this.gfx = gfx;
     this.BGLayer = BGLayer;

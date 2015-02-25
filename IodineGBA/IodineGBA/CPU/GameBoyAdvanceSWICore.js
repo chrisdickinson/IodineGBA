@@ -15,6 +15,8 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GameBoyAdvanceSWI;
+
 function GameBoyAdvanceSWI(CPUCore) {
     this.CPUCore = CPUCore;
     this.IOCore = this.CPUCore.IOCore;

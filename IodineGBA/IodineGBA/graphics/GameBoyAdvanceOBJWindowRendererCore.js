@@ -15,6 +15,7 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GameBoyAdvanceOBJWindowRenderer;
 function GameBoyAdvanceOBJWindowRenderer(gfx) {
     this.gfx = gfx;
     this.WINOBJOutside = 0;

@@ -15,6 +15,10 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GameBoyAdvanceFLASHChip;
+
+var getUint8Array = require('../../includes/TypedArrayShim.js').getUint8Array;
+
 function GameBoyAdvanceFLASHChip(is128, isAteml) {
     this.largestSizePossible = (!!is128) ? 0x20000 : 0x10000;
     this.notATMEL = !isAteml;

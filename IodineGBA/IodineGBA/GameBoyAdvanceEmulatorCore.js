@@ -15,6 +15,13 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GameBoyAdvanceEmulator;
+var GameBoyAdvanceIO = require('./GameBoyAdvanceIOCore.js');
+var TypedArrayShim = require('../includes/TypedArrayShim.js');
+var getUint8Array = TypedArrayShim.getUint8Array;
+var getInt32Array = TypedArrayShim.getInt32Array;
+var getFloat32Array = TypedArrayShim.getFloat32Array;
+
 function GameBoyAdvanceEmulator() {
     this.settings = {
         "SKIPBoot":false,                   //Skip the BIOS boot screen.

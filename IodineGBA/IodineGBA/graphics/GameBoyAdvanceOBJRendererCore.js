@@ -15,6 +15,16 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GameBoyAdvanceOBJRenderer;
+
+var TypedArrayShim = require('../../includes/TypedArrayShim.js')
+var IS_LITTLE_ENDIAN = TypedArrayShim.IS_LITTLE_ENDIAN;
+var HAS_VIEWS_SUPPORT = TypedArrayShim.HAS_VIEWS_SUPPORT;
+var getInt32Array = TypedArrayShim.getInt32Array;
+var getInt32View = TypedArrayShim.getInt32View;
+var getUint8Array = TypedArrayShim.getUint8Array;
+var getUint16View= TypedArrayShim.getUint16View;
+
 function GameBoyAdvanceOBJRenderer(gfx) {
     this.gfx = gfx;
     this.paletteOBJ256 = this.gfx.paletteOBJ256;
@@ -38,7 +48,7 @@ GameBoyAdvanceOBJRenderer.prototype.lookupYSize = [
     //Horizontal Rectangle:
     16, 32, 32, 64
 ];
-if (__VIEWS_SUPPORTED__) {
+if (HAS_VIEWS_SUPPORT) {
     if (typeof getUint8Array(1).fill == "function") {
         GameBoyAdvanceOBJRenderer.prototype.initialize = function () {
             this.VRAM32 = this.gfx.VRAM32;
@@ -319,7 +329,7 @@ GameBoyAdvanceOBJRenderer.prototype.renderNormalSprite = function (sprite, xSize
         this.render16ColorPaletteSprite(address | 0, xSize | 0, sprite.paletteNumber | 0);
     }
 }
-if (__LITTLE_ENDIAN__) {
+if (IS_LITTLE_ENDIAN) {
     GameBoyAdvanceOBJRenderer.prototype.render256ColorPaletteSprite = function (address, xSize) {
         address = address >> 2;
         xSize = xSize | 0;
@@ -513,7 +523,7 @@ GameBoyAdvanceOBJRenderer.prototype.isDrawable = function (sprite, doWindowOBJ) 
 GameBoyAdvanceOBJRenderer.prototype.readOAM = function (address) {
     return this.OAMRAM[address & 0x3FF] | 0;
 }
-if (__LITTLE_ENDIAN__) {
+if (IS_LITTLE_ENDIAN) {
     GameBoyAdvanceOBJRenderer.prototype.writeOAM16 = function (address, data) {
         address = address | 0;
         data = data | 0;

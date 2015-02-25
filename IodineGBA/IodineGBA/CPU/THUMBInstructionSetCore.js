@@ -15,6 +15,10 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = THUMBInstructionSet;
+
+var getUint8Array = require('../../includes/TypedArrayShim.js').getUint8Array;
+
 function THUMBInstructionSet(CPUCore) {
     this.CPUCore = CPUCore;
     this.initialize();

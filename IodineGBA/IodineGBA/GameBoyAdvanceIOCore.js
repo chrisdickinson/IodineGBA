@@ -15,6 +15,21 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GameBoyAdvanceIO;
+
+var GameBoyAdvanceMemory = require('./GameBoyAdvanceMemoryCore.js');
+var GameBoyAdvanceDMA = require('./GameBoyAdvanceDMACore.js');
+var GameBoyAdvanceGraphics = require('./GameBoyAdvanceGraphicsCore.js');
+var GameBoyAdvanceSound = require('./GameBoyAdvanceSoundCore.js');
+var GameBoyAdvanceTimer = require('./GameBoyAdvanceTimerCore.js');
+var GameBoyAdvanceIRQ = require('./GameBoyAdvanceIRQCore.js');
+var GameBoyAdvanceSerial = require('./GameBoyAdvanceSerialCore.js');
+var GameBoyAdvanceJoyPad = require('./GameBoyAdvanceJoyPadCore.js');
+var GameBoyAdvanceCartridge = require('./GameBoyAdvanceCartridgeCore.js');
+var GameBoyAdvanceSaves = require('./GameBoyAdvanceSavesCore.js');
+var GameBoyAdvanceWait = require('./GameBoyAdvanceWaitCore.js');
+var GameBoyAdvanceCPU = require('./GameBoyAdvanceCPUCore.js');
+
 function GameBoyAdvanceIO(settings, coreExposed, BIOS, ROM) {
     //State Machine Tracking:
     this.systemStatus = 0;

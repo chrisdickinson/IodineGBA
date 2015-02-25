@@ -15,6 +15,10 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = ARMInstructionSet;
+
+var getUint8Array = require('../../includes/TypedArrayShim.js').getUint8Array;
+
 function ARMInstructionSet(CPUCore) {
     this.CPUCore = CPUCore;
     this.initialize();

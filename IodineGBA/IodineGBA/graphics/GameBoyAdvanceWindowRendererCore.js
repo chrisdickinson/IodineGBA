@@ -15,6 +15,8 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GameBoyAdvanceWindowRenderer;
+var GameBoyAdvanceCompositor = require('./GameBoyAdvanceCompositorCore.js');
 function GameBoyAdvanceWindowRenderer(gfx) {
     this.gfx = gfx;
     this.WINXCoordRight = 0;

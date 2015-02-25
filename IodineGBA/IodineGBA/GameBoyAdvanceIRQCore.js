@@ -15,6 +15,7 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GameBoyAdvanceIRQ;
 function GameBoyAdvanceIRQ(IOCore) {
     //Build references:
     this.IOCore = IOCore;

@@ -15,6 +15,29 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GameBoyAdvanceGraphics;
+var GameBoyAdvanceIO = require('./GameBoyAdvanceIOCore.js');
+var TypedArrayShim = require('../includes/TypedArrayShim.js');
+var getUint8Array = TypedArrayShim.getUint8Array;
+var getUint16View = TypedArrayShim.getUint16View;
+var getInt32Array = TypedArrayShim.getInt32Array;
+var getInt32View = TypedArrayShim.getInt32View;
+var IS_LITTLE_ENDIAN = TypedArrayShim.IS_LITTLE_ENDIAN;
+var GameBoyAdvanceAffineBGRenderer = require('./graphics/GameBoyAdvanceAffineBGRendererCore.js');
+var GameBoyAdvanceBG2FrameBufferRenderer = require('./graphics/GameBoyAdvanceBG2FrameBufferRendererCore.js');
+var GameBoyAdvanceBGMatrixRenderer = require('./graphics/GameBoyAdvanceBGMatrixRendererCore.js');
+var GameBoyAdvanceBGTEXTRenderer = require('./graphics/GameBoyAdvanceBGTEXTRendererCore.js');
+var GameBoyAdvanceColorEffectsRenderer = require('./graphics/GameBoyAdvanceColorEffectsRendererCore.js');
+var GameBoyAdvanceCompositor = require('./graphics/GameBoyAdvanceCompositorCore.js');
+var GameBoyAdvanceMode0Renderer = require('./graphics/GameBoyAdvanceMode0RendererCore.js');
+var GameBoyAdvanceMode1Renderer = require('./graphics/GameBoyAdvanceMode1RendererCore.js');
+var GameBoyAdvanceMode2Renderer = require('./graphics/GameBoyAdvanceMode2RendererCore.js');
+var GameBoyAdvanceModeFrameBufferRenderer = require('./graphics/GameBoyAdvanceModeFrameBufferRendererCore.js');
+var GameBoyAdvanceMosaicRenderer = require('./graphics/GameBoyAdvanceMosaicRendererCore.js');
+var GameBoyAdvanceOBJRenderer = require('./graphics/GameBoyAdvanceOBJRendererCore.js');
+var GameBoyAdvanceOBJWindowRenderer = require('./graphics/GameBoyAdvanceOBJWindowRendererCore.js');
+var GameBoyAdvanceWindowRenderer = require('./graphics/GameBoyAdvanceWindowRendererCore.js');
+
 function GameBoyAdvanceGraphics(IOCore) {
     this.IOCore = IOCore;
     this.settings = IOCore.settings;
@@ -1024,7 +1047,7 @@ GameBoyAdvanceGraphics.prototype.writeBLDY = function (data) {
     this.graphicsJIT();
     this.colorEffectsRenderer.writeBLDY(data | 0);
 }
-if (__LITTLE_ENDIAN__) {
+if (IS_LITTLE_ENDIAN) {
     GameBoyAdvanceGraphics.prototype.writeVRAM8 = function (address, data) {
         address = address | 0;
         data = data | 0;

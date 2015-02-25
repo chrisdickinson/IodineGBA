@@ -15,6 +15,7 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GameBoyAdvanceChannel2Synth;
 function GameBoyAdvanceChannel2Synth(sound) {
     this.sound = sound;
     this.currentSampleLeft = 0;

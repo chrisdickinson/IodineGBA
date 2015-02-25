@@ -15,6 +15,10 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GameBoyAdvanceBG2FrameBufferRenderer;
+
+var IS_LITTLE_ENDIAN = require('../../includes/TypedArrayShim.js').IS_LITTLE_ENDIAN;
+
 function GameBoyAdvanceBG2FrameBufferRenderer(gfx) {
     this.gfx = gfx;
     this.palette = this.gfx.palette256;
@@ -41,7 +45,7 @@ GameBoyAdvanceBG2FrameBufferRenderer.prototype.renderScanLine = function (line) 
     line = line | 0;
     return this.bgAffineRenderer.renderScanLine(line | 0, this);
 }
-if (__LITTLE_ENDIAN__) {
+if (IS_LITTLE_ENDIAN) {
     if (typeof Math.imul == "function") {
         //Math.imul found, insert the optimized path in:
         GameBoyAdvanceBG2FrameBufferRenderer.prototype.fetchMode3Pixel = function (x, y) {

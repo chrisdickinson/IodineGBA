@@ -15,6 +15,12 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GameBoyAdvanceCartridge;
+var TypedArrayShim = require('../includes/TypedArrayShim.js');
+var getUint16View = TypedArrayShim.getUint16View;
+var getInt32View = TypedArrayShim.getInt32View;
+var getUint8Array = TypedArrayShim.getUint8Array;
+var IS_LITTLE_ENDIAN = TypedArrayShim.IS_LITTLE_ENDIAN;
 function GameBoyAdvanceCartridge(IOCore) {
     this.IOCore = IOCore;
     this.initialize();
@@ -118,7 +124,7 @@ GameBoyAdvanceCartridge.prototype.readROMOnly8 = function (address) {
     }
     return data | 0;
 }
-if (__LITTLE_ENDIAN__) {
+if (IS_LITTLE_ENDIAN) {
     GameBoyAdvanceCartridge.prototype.readROMOnly16 = function (address) {
         address = address | 0;
         var data = 0;

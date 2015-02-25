@@ -15,6 +15,7 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GameBoyAdvanceJoyPad;
 function GameBoyAdvanceJoyPad(IOCore) {
     this.IOCore = IOCore;
     this.initialize();

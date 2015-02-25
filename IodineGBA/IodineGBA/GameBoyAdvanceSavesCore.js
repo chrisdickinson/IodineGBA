@@ -15,6 +15,11 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GameBoyAdvanceSaves;
+var GameBoyAdvanceSaveDeterminer = require('./cartridge/GameBoyAdvanceSaveDeterminerCore.js');
+var GameBoyAdvanceEEPROMChip = require('./cartridge/GameBoyAdvanceEEPROMChipCore.js');
+var GameBoyAdvanceFLASHChip = require('./cartridge/GameBoyAdvanceFLASHChipCore.js');
+var GameBoyAdvanceSRAMChip = require('./cartridge/GameBoyAdvanceSRAMChipCore.js');
 function GameBoyAdvanceSaves(IOCore) {
     this.cartridge = IOCore.cartridge;
     this.initialize();

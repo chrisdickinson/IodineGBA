@@ -15,6 +15,8 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GameBoyAdvanceSaveDeterminer;
+
 function GameBoyAdvanceSaveDeterminer(saveCore) {
     this.saves = null;
     this.saveCore = saveCore;

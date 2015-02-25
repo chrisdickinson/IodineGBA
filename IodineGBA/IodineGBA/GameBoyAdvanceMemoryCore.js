@@ -15,6 +15,13 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GameBoyAdvanceMemory;
+var GameBoyAdvanceMemoryDispatchGenerator = require('./memory/GameBoyAdvanceMemoryDispatchGeneratorCore.js');
+var TypedArrayShim = require('../includes/TypedArrayShim.js');
+var getUint8Array = TypedArrayShim.getUint8Array;
+var getUint16View = TypedArrayShim.getUint16View;
+var getInt32View = TypedArrayShim.getInt32View;
+var IS_LITTLE_ENDIAN = TypedArrayShim.IS_LITTLE_ENDIAN;
 function GameBoyAdvanceMemory(IOCore) {
     //Reference to the emulator core:
     this.IOCore = IOCore;
@@ -69,7 +76,7 @@ GameBoyAdvanceMemory.prototype.writeExternalWRAM8 = function (address, data) {
     this.wait.WRAMAccess();
     this.externalRAM[address & 0x3FFFF] = data & 0xFF;
 }
-if (__LITTLE_ENDIAN__) {
+if (IS_LITTLE_ENDIAN) {
     GameBoyAdvanceMemory.prototype.writeExternalWRAM16 = function (address, data) {
         address = address | 0;
         data = data | 0;
@@ -110,7 +117,7 @@ GameBoyAdvanceMemory.prototype.writeInternalWRAM8 = function (address, data) {
     this.wait.singleClock();
     this.internalRAM[address & 0x7FFF] = data & 0xFF;
 }
-if (__LITTLE_ENDIAN__) {
+if (IS_LITTLE_ENDIAN) {
     GameBoyAdvanceMemory.prototype.writeInternalWRAM16 = function (address, data) {
         address = address | 0;
         data = data | 0;
@@ -954,7 +961,7 @@ GameBoyAdvanceMemory.prototype.readBIOS8 = function (address) {
     }
     return data | 0;
 }
-if (__LITTLE_ENDIAN__) {
+if (IS_LITTLE_ENDIAN) {
     GameBoyAdvanceMemory.prototype.readBIOS16 = function (address) {
         address = address | 0;
         var data = 0;
@@ -1092,7 +1099,7 @@ GameBoyAdvanceMemory.prototype.readExternalWRAM8 = function (address) {
     this.wait.WRAMAccess();
     return this.externalRAM[address & 0x3FFFF] | 0;
 }
-if (__LITTLE_ENDIAN__) {
+if (IS_LITTLE_ENDIAN) {
     GameBoyAdvanceMemory.prototype.readExternalWRAM16 = function (address) {
         address = address | 0;
         //External WRAM:
@@ -1150,7 +1157,7 @@ GameBoyAdvanceMemory.prototype.readInternalWRAM8 = function (address) {
     this.wait.singleClock();
     return this.internalRAM[address & 0x7FFF] | 0;
 }
-if (__LITTLE_ENDIAN__) {
+if (IS_LITTLE_ENDIAN) {
     GameBoyAdvanceMemory.prototype.readInternalWRAM16 = function (address) {
         address = address | 0;
         //Internal WRAM:

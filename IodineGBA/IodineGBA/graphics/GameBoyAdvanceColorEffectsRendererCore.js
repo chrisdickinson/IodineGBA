@@ -15,6 +15,8 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GameBoyAdvanceColorEffectsRenderer;
+
 function GameBoyAdvanceColorEffectsRenderer() {
     this.alphaBlendAmountTarget1 = 0;
     this.alphaBlendAmountTarget2 = 0;

@@ -15,6 +15,8 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GameBoyAdvanceMode1Renderer;
+
 function GameBoyAdvanceMode1Renderer(gfx) {
     this.gfx = gfx;
 }

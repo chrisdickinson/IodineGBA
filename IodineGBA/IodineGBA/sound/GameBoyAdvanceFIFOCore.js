@@ -15,6 +15,8 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GameBoyAdvanceFIFO;
+var getInt8Array = require('../../includes/TypedArrayShim.js').getInt8Array;
 function GameBoyAdvanceFIFO() {
     this.count = 0;
     this.position = 0;

@@ -15,6 +15,12 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GameBoyAdvanceSound;
+var GameBoyAdvanceChannel1Synth = require('./sound/GameBoyAdvanceChannel1Synth.js');
+var GameBoyAdvanceChannel2Synth = require('./sound/GameBoyAdvanceChannel2Synth.js');
+var GameBoyAdvanceChannel3Synth = require('./sound/GameBoyAdvanceChannel3Synth.js');
+var GameBoyAdvanceChannel4Synth = require('./sound/GameBoyAdvanceChannel4Synth.js');
+var GameBoyAdvanceFIFO = require('./sound/GameBoyAdvanceFIFOCore.js');
 function GameBoyAdvanceSound(IOCore) {
     //Build references:
     this.IOCore = IOCore;

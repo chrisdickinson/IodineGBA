@@ -15,6 +15,12 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GameBoyAdvanceBGTEXTRenderer;
+
+var TypedArrayShim = require('../../includes/TypedArrayShim.js')
+var IS_LITTLE_ENDIAN = TypedArrayShim.IS_LITTLE_ENDIAN;
+var getInt32Array = TypedArrayShim.getInt32Array;
+
 function GameBoyAdvanceBGTEXTRenderer(gfx, BGLayer) {
     this.gfx = gfx;
     this.VRAM = this.gfx.VRAM;
@@ -82,7 +88,7 @@ GameBoyAdvanceBGTEXTRenderer.prototype.renderWholeTiles = function (xTileStart, 
         xTileStart = ((xTileStart | 0) + 1) | 0;
     }
 }
-if (__LITTLE_ENDIAN__) {
+if (IS_LITTLE_ENDIAN) {
     GameBoyAdvanceBGTEXTRenderer.prototype.fetchTile = function (yTileStart, xTileStart) {
         yTileStart = yTileStart | 0;
         xTileStart = xTileStart | 0;
@@ -142,7 +148,7 @@ GameBoyAdvanceBGTEXTRenderer.prototype.process4BitVRAM = function (chrData, yOff
     //Copy out our pixels:
     this.render4BitVRAM(chrData >> 8, address | 0);
 }
-if (__LITTLE_ENDIAN__) {
+if (IS_LITTLE_ENDIAN) {
     GameBoyAdvanceBGTEXTRenderer.prototype.render4BitVRAM = function (chrData, address) {
         chrData = chrData | 0;
         address = address | 0;
@@ -262,7 +268,7 @@ GameBoyAdvanceBGTEXTRenderer.prototype.process8BitVRAM = function (chrData, yOff
             this.render8BitVRAMFlipped(address | 0);
     }
 }
-if (__LITTLE_ENDIAN__) {
+if (IS_LITTLE_ENDIAN) {
     GameBoyAdvanceBGTEXTRenderer.prototype.render8BitVRAMNormal = function (address) {
         address = address | 0;
         if ((address | 0) < 0x4000) {

@@ -15,6 +15,8 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GameBoyAdvanceCompositor;
+
 function GameBoyAdvanceCompositor(gfx) {
     this.gfx = gfx;
     this.preprocess(false);

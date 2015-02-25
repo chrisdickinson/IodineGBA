@@ -15,6 +15,7 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GameBoyAdvanceDMA3;
 function GameBoyAdvanceDMA3(dma) {
     this.DMACore = dma;
     this.initialize();

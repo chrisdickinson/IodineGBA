@@ -15,6 +15,8 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = ARMCPSRAttributeTable;
+
 function ARMCPSRAttributeTable() {
     var negative = 0;          //N Bit
     var zero = 1;              //Z Bit

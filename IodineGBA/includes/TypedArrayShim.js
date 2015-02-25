@@ -15,6 +15,21 @@
  * GNU General Public License for more details.
  *
  */
+var HAS_VIEWS_SUPPORT = getUint16View(getInt32Array(1)) !== null;
+module.exports = {
+  getInt8Array: getInt8Array,
+  getUint8Array: getUint8Array,
+  getInt16Array: getInt16Array,
+  getUint16Array: getUint16Array,
+  getUint16View: getUint16View,
+  getInt32Array: getInt32Array,
+  getInt32View: getInt32View,
+  getUint32Array: getUint32Array,
+  getFloat32Array: getFloat32Array,
+  getArray: getArray,
+  HAS_VIEWS_SUPPORT: HAS_VIEWS_SUPPORT,
+  IS_LITTLE_ENDIAN: isLittleEndian()
+}
 function getInt8Array(size_t) {
     try {
         return new Int8Array(size_t);
@@ -94,9 +109,8 @@ function getArray(size_t) {
     }
     return genericArray;
 }
-var __VIEWS_SUPPORTED__ = getUint16View(getInt32Array(1)) !== null;
-var __LITTLE_ENDIAN__ = (function () {
-    if (__VIEWS_SUPPORTED__) {
+function isLittleEndian() {
+    if (HAS_VIEWS_SUPPORT) {
         var test = getInt32Array(1);
         test[0] = 1;
         var test2 = getUint16View(test);
@@ -105,4 +119,4 @@ var __LITTLE_ENDIAN__ = (function () {
         }
     }
     return false;
-})();
+}

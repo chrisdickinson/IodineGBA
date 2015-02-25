@@ -15,6 +15,8 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GameBoyAdvanceBGMatrixRenderer;
+
 function GameBoyAdvanceBGMatrixRenderer(gfx, BGLayer) {
     this.gfx = gfx;
     this.BGLayer = BGLayer | 0;

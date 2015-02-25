@@ -15,6 +15,8 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GameBoyAdvanceChannel4Synth;
+var getInt8Array = require('../../includes/TypedArrayShim.js').getInt8Array;
 function GameBoyAdvanceChannel4Synth(sound) {
     this.sound = sound;
     this.currentSampleLeft = 0;

@@ -15,6 +15,7 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GameBoyAdvanceMemoryDispatchGenerator;
 function GameBoyAdvanceMemoryDispatchGenerator(memory) {
     this.memory = memory;
 }

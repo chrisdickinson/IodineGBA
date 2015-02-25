@@ -15,6 +15,10 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GameBoyAdvanceEEPROMChip;
+
+var getUint8Array = require('../../includes/TypedArrayShim.js').getUint8Array;
+
 function GameBoyAdvanceEEPROMChip(IOCore) {
     this.saves = null;
     this.largestSizePossible = 0x200;

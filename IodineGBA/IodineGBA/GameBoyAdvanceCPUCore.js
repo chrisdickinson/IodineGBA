@@ -15,6 +15,14 @@
  * GNU General Public License for more details.
  *
  */
+module.exports = GameBoyAdvanceCPU;
+var TypedArrayShim = require('../includes/TypedArrayShim.js');
+var THUMBInstructionSet = require('./CPU/THUMBInstructionSetCore.js');
+var ARMCPSRAttributeTable = require('./CPU/ARMCPSRAttributeTable.js');
+var GameBoyAdvanceSWI = require('./CPU/GameBoyAdvanceSWICore.js');
+var ARMInstructionSet = require('./CPU/ARMInstructionSetCore.js');
+var getInt32Array = TypedArrayShim.getInt32Array;
+var getUint16Array = TypedArrayShim.getUint16Array;
 function GameBoyAdvanceCPU(IOCore) {
     this.IOCore = IOCore;
     this.memory = this.IOCore.memory;
