@@ -20,17 +20,18 @@ var GameBoyAdvanceEmulator = require('../IodineGBA/IodineGBA/GameBoyAdvanceEmula
 var getInputFunctions = require('./IodineGBAJoyPadGlueCode.js');
 var GlueCodeGfx = require('./IodineGBAGraphicsGlueCode.js');
 var GlueCodeAudio = require('./IodineGBAAudioGlueCode.js');
+var GlueCodeSaves = require('./IodineGBASavesGlueCode.js');
+var GlueCodeROMLoad = require('./IodineGBAROMLoadGlueCode.js');
 function startDemo(rootElement) {
   var gba = new GameBoyAdvanceEmulator();
-  registerBlitterHandler(gba, rootElement.querySelector('canvas[data-emulator-target]'));
   //Initialize the graphics:
-  var blitter = registerBlitterHandler(gba);
+  var blitter = registerBlitterHandler(gba, rootElement.querySelector('canvas[data-emulator-target]'));
   //Initialize the audio:
   registerAudioHandler(gba);
   //Register the save handler callbacks:
-  registerSaveHandlers(gba);
+  GlueCodeSaves.register(gba);
   //Hook the GUI controls.
-  registerGUIEvents(gba, blitter);
+  registerGUIEvents(gba, blitter, rootElement);
 }
 
 function registerBlitterHandler(gba, canvas) {
@@ -47,30 +48,55 @@ function registerAudioHandler(gba) {
     gba.attachAudioHandler(MixerInput);
     gba.enableAudio();
 }
-function registerGUIEvents(gba, blitter) {
+function registerGUIEvents(gba, blitter, rootElement) {
     var input = getInputFunctions(gba);
-    addEvent("keydown", document, input.keyDown);
-    addEvent("keyup", document, input.keyUpPreprocess);
-    addEvent("change", document.getElementById("rom_load"), fileLoadROM);
-    addEvent("change", document.getElementById("bios_load"), fileLoadBIOS);
-    addEvent("click", document.getElementById("play"), function (e) {
+    addEvent("keydown", rootElement, input.keyDown);
+    addEvent("keyup", rootElement, input.keyUpPreprocess);
+    addEvent("change", rootElement.querySelector("[name=rom_load]"), function () {
+        GlueCodeROMLoad.uploadFile(this.files, function(data) {
+            resetPlayButton();
+            try {
+                gba.attachROM(new Uint8Array(data));
+            }
+            catch (error) {
+                gba.attachROM(data);
+            }
+        });
+    });
+    addEvent("change", rootElement.querySelector("[name=bios_load]"), function (data) {
+        GlueCodeROMLoad.uploadFile(this.files, function(data) {
+            resetPlayButton();
+            try {
+                gba.attachBIOS(new Uint8Array(data));
+            }
+            catch (error) {
+                gba.attachBIOS(data);
+            }
+        });
+    });
+    var playBtn = rootElement.querySelector("[name=play]");
+    var pauseBtn = rootElement.querySelector("[name=pause]");
+    var restartBtn = rootElement.querySelector("[name=restart]");
+    var skipBootBtn = rootElement.querySelector("[name=skip_boot]");
+    var soundBtn = rootElement.querySelector("[name=sound]");
+    addEvent("click", playBtn, function (e) {
         gba.play();
         this.style.display = "none";
-        document.getElementById("pause").style.display = "inline";
+        pauseBtn.style.display = "inline";
         e.preventDefault();
     });
-    addEvent("click", document.getElementById("pause"), function (e) {
+    addEvent("click", pauseBtn, function (e) {
         gba.pause();
         this.style.display = "none";
-        document.getElementById("play").style.display = "inline";
+        playBtn.style.display = "inline";
         e.preventDefault();
     });
-    addEvent("click", document.getElementById("restart"), function (e) {
+    addEvent("click", restartBtn, function (e) {
         gba.restart();
         e.preventDefault();
     });
-    document.getElementById("sound").checked = true;
-    addEvent("click", document.getElementById("sound"), function () {
+    soundBtn.checked = true;
+    addEvent("click", soundBtn, function () {
         if (this.checked) {
             gba.enableAudio();
         }
@@ -78,8 +104,8 @@ function registerGUIEvents(gba, blitter) {
             gba.disableAudio();
         }
     });
-    document.getElementById("skip_boot").checked = false;
-    addEvent("click", document.getElementById("skip_boot"), function () {
+    skipBootBtn.checked = false;
+    addEvent("click", skipBootBtn, function () {
              if (this.checked) {
                 gba.enableSkipBootROM();
              }
@@ -87,12 +113,14 @@ function registerGUIEvents(gba, blitter) {
                 gba.disableSkipBootROM();
              }
     });
-    document.getElementById("toggleSmoothScaling").checked = true;
-    addEvent("click", document.getElementById("toggleSmoothScaling"), function () {
+    var toggleSmoothScalingBtn = rootElement.querySelector('[name=toggleSmoothScaling]');
+    toggleSmoothScalingBtn.checked = true;
+    addEvent("click", toggleSmoothScalingBtn, function () {
             blitter.setSmoothScaling(this.checked);
     });
-    document.getElementById("toggleDynamicSpeed").checked = true;
-    addEvent("click", document.getElementById("toggleDynamicSpeed"), function () {
+    var toggleDynamicSpeedBtn = rootElement.querySelector('[name=toggleDynamicSpeed]');
+    toggleDynamicSpeedBtn.checked = true;
+    addEvent("click", toggleDynamicSpeedBtn, function () {
              if (this.checked) {
                 gba.enableDynamicSpeed();
              }
@@ -100,7 +128,9 @@ function registerGUIEvents(gba, blitter) {
                 gba.disableDynamicSpeed();
              }
     });
-    addEvent("change", document.getElementById("import"), function (e) {
+    var importBtn = rootElement.querySelector('[name=import]');
+    var exportBtn = rootElement.querySelector('[name=export]');
+    addEvent("change", importBtn, function (e) {
              if (typeof this.files != "undefined") {
                 try {
                     if (this.files.length >= 1) {
@@ -148,25 +178,27 @@ function registerGUIEvents(gba, blitter) {
              }
              e.preventDefault();
     });
-    addEvent("click", document.getElementById("export"), refreshStorageListing);
-    addEvent("unload", window, ExportSave);
+    addEvent("click", exportBtn, GlueCodeSaves.refresh);
+    addEvent("unload", window, function() {
+        gba.exportSave();
+    });
     gba.attachSpeedHandler(function (speed) {
-        var speedDOM = document.getElementById("speed");
+        var speedDOM = rootElement.querySelector("[data-name=speed]");
         speedDOM.textContent = "Speed: " + speed;
     });
     //setInterval(ExportSave, 60000); //Do periodic saves.
-}
-function resetPlayButton() {
-    document.getElementById("pause").style.display = "none";
-    document.getElementById("play").style.display = "inline";
+    function resetPlayButton() {
+        pauseBtn.style.display = "none";
+        playBtn.style.display = "inline";
+    }
 }
 function writeRedTemporaryText(textString) {
-    if (timerID) {
-        clearTimeout(timerID);
+    if (writeRedTemporaryText.timerID) {
+        clearTimeout(writeRedTemporaryText.timerID);
     }
     document.getElementById("tempMessage").style.display = "block";
     document.getElementById("tempMessage").textContent = textString;
-    timerID = setTimeout(clearTempString, 5000);
+    writeRedTemporaryText.timerID = setTimeout(clearTempString, 5000);
 }
 function clearTempString() {
     document.getElementById("tempMessage").style.display = "none";

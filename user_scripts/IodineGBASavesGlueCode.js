@@ -18,7 +18,8 @@
 var base64 = require('base64-js');
 module.exports = {
   register: registerSaveHandlers,
-  refresh: refreshStorageListing
+  refresh: refreshStorageListing,
+  importSave: import_save
 };
 function ImportSaveCallback(name) {
     try {
