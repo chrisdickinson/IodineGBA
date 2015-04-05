@@ -20,7 +20,6 @@ var getUint8Array = require('../includes/TypedArrayShim.js').getUint8Array;
 function GameBoyAdvanceWait(IOCore) {
     this.IOCore = IOCore;
     this.memory = this.IOCore.memory;
-    this.initialize();
 }
 GameBoyAdvanceWait.prototype.GAMEPAKWaitStateTable = [
     5, 4, 3, 9

@@ -22,7 +22,6 @@ var GameBoyAdvanceFLASHChip = require('./cartridge/GameBoyAdvanceFLASHChipCore.j
 var GameBoyAdvanceSRAMChip = require('./cartridge/GameBoyAdvanceSRAMChipCore.js');
 function GameBoyAdvanceSaves(IOCore) {
     this.cartridge = IOCore.cartridge;
-    this.initialize();
 }
 GameBoyAdvanceSaves.prototype.initialize = function () {
     this.saveType = 0;

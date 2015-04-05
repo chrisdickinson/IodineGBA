@@ -23,7 +23,6 @@ var getUint8Array = TypedArrayShim.getUint8Array;
 var IS_LITTLE_ENDIAN = TypedArrayShim.IS_LITTLE_ENDIAN;
 function GameBoyAdvanceCartridge(IOCore) {
     this.IOCore = IOCore;
-    this.initialize();
 }
 GameBoyAdvanceCartridge.prototype.initialize = function () {
     this.flash_is128 = false;

@@ -80,10 +80,10 @@ function registerGUIEvents(gba, blitter, rootElement) {
     var skipBootBtn = rootElement.querySelector("[name=skip_boot]");
     var soundBtn = rootElement.querySelector("[name=sound]");
     addEvent("click", playBtn, function (e) {
+        e.preventDefault();
         gba.play();
         this.style.display = "none";
         pauseBtn.style.display = "inline";
-        e.preventDefault();
     });
     addEvent("click", pauseBtn, function (e) {
         gba.pause();

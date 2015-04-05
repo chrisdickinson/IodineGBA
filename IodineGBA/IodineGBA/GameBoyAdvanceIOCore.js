@@ -2,7 +2,7 @@
 /*
  * This file is part of IodineGBA
  *
- * Copyright (C) 2012-2014 Grant Galitz
+ * Copyright (C) 2012-2015 Grant Galitz
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,6 +29,10 @@ var GameBoyAdvanceCartridge = require('./GameBoyAdvanceCartridgeCore.js');
 var GameBoyAdvanceSaves = require('./GameBoyAdvanceSavesCore.js');
 var GameBoyAdvanceWait = require('./GameBoyAdvanceWaitCore.js');
 var GameBoyAdvanceCPU = require('./GameBoyAdvanceCPUCore.js');
+var GameBoyAdvanceDMA0 = require('./memory/GameBoyAdvanceDMA0Core.js');
+var GameBoyAdvanceDMA1 = require('./memory/GameBoyAdvanceDMA1Core.js');
+var GameBoyAdvanceDMA2 = require('./memory/GameBoyAdvanceDMA2Core.js');
+var GameBoyAdvanceDMA3 = require('./memory/GameBoyAdvanceDMA3Core.js');
 
 function GameBoyAdvanceIO(settings, coreExposed, BIOS, ROM) {
     //State Machine Tracking:
@@ -46,9 +50,13 @@ function GameBoyAdvanceIO(settings, coreExposed, BIOS, ROM) {
     this.coreExposed = coreExposed;
     this.BIOS = BIOS;
     this.ROM = ROM;
-    //Initialize the various handler objects:
+    //Build the core object layout:
     this.memory = new GameBoyAdvanceMemory(this);
     this.dma = new GameBoyAdvanceDMA(this);
+    this.dmaChannel0 = new GameBoyAdvanceDMA0(this);
+    this.dmaChannel1 = new GameBoyAdvanceDMA1(this);
+    this.dmaChannel2 = new GameBoyAdvanceDMA2(this);
+    this.dmaChannel3 = new GameBoyAdvanceDMA3(this);
     this.gfx = new GameBoyAdvanceGraphics(this);
     this.sound = new GameBoyAdvanceSound(this);
     this.timer = new GameBoyAdvanceTimer(this);
@@ -59,9 +67,28 @@ function GameBoyAdvanceIO(settings, coreExposed, BIOS, ROM) {
     this.saves = new GameBoyAdvanceSaves(this);
     this.wait = new GameBoyAdvanceWait(this);
     this.cpu = new GameBoyAdvanceCPU(this);
-    this.ARM = this.cpu.ARM;
-    this.THUMB = this.cpu.THUMB;
-    this.memory.loadReferences();
+    //Now initialize each component:
+    this.memory.initialize();
+    this.dma.initialize();
+    this.dmaChannel0.initialize();
+    this.dmaChannel1.initialize();
+    this.dmaChannel2.initialize();
+    this.dmaChannel3.initialize();
+    this.gfx.initialize();
+    this.sound.initialize();
+    this.timer.initialize();
+    this.irq.initialize();
+    this.serial.initialize();
+    this.joypad.initialize();
+    this.cartridge.initialize();
+    this.saves.initialize();
+    this.wait.initialize();
+    this.cpu.initialize();
+}
+GameBoyAdvanceIO.prototype.assignInstructionCoreReferences = function (ARM, THUMB) {
+    //Passed here once the CPU component is initialized:
+    this.ARM = ARM;
+    this.THUMB = THUMB;
 }
 GameBoyAdvanceIO.prototype.enter = function (CPUCyclesTotal) {
     //Find out how many clocks to iterate through this run:
